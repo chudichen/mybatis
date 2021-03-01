@@ -370,10 +370,12 @@ public class XNode {
 
     private Properties parseAttributes(Node n) {
         Properties attributes = new Properties();
+        // 获取节点的属性集合
         NamedNodeMap attributeNodes = n.getAttributes();
         if (attributeNodes != null) {
             for (int i = 0; i < attributeNodes.getLength(); i++) {
                 Node attribute = attributeNodes.item(i);
+                // 使用PropertyParser处理每个属性中的占位符
                 String value = PropertyParser.parse(attribute.getNodeValue(), variables);
                 attributes.put(attribute.getNodeName(), value);
             }
@@ -383,8 +385,10 @@ public class XNode {
 
     private String parseBody(Node node) {
         String data = getBodyData(node);
+        // 当前节点不是文本节点
         if (data == null) {
             NodeList children = node.getChildNodes();
+            // 处理子节点
             for (int i = 0; i < children.getLength(); i++) {
                 Node child = children.item(i);
                 data = getBodyData(child);

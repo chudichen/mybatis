@@ -17,6 +17,9 @@ package org.apache.ibatis.parsing;
 
 /**
  * 通用的 Token 解析器
+ * {@link GenericTokenParser} 不仅仅用于这里的默认值解析，还会用于对动态SQL语句的解析。很明显，
+ * GenericTokenParser只是查找到指定的占位符，而具体的解析行为会交给其持有的{@link TokenHandler}
+ * 实现的不同而有所不同，这里有点像策略模式。
  *
  * @author Clinton Begin
  */
@@ -30,6 +33,9 @@ public class GenericTokenParser {
      * 结束的 Token 字符串
      */
     private final String closeToken;
+    /**
+     * TokenHandler接口的实现会按照一定的逻辑解析占位符
+     */
     private final TokenHandler handler;
 
     public GenericTokenParser(String openToken, String closeToken, TokenHandler handler) {

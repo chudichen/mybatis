@@ -51,10 +51,15 @@ public class XPathParser {
     private boolean validation;
     /**
      * XML 实体解析器
+     *
+     * 默认情况下，对XML文档进行验证时，会根据XML文档开始位置指定的网址加载对应的DTD或者XSD文件。
+     * 当网络比较慢时会导致验证过程缓慢。在实践中往往会体检设置EntityResolver接口对象加载本地的
+     * DTD文件，从而避免互联网加载DTD文件。{@link org.apache.ibatis.builder.xml.XMLMapperEntityResolver}
+     * 是MyBatis提供的EntityResolver接口的实现类。
      */
     private EntityResolver entityResolver;
     /**
-     * 变量 Properties 对象
+     * 变量 Properties 对象，mybatis-config.xml中<properties>标签定义的键值对集合
      */
     private Properties variables;
     /**
@@ -261,6 +266,7 @@ public class XPathParser {
 
     /**
      * 创建 Document 对象
+     * 调用createDocument()方法之前一定要先调用commonConstructor()方法完成初始化
      *
      * @param inputSource XML 的 InputSource 对象
      * @return Document 对象
@@ -270,7 +276,8 @@ public class XPathParser {
         try {
             // 1> 创建 DocumentBuilderFactory 对象
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            factory.setValidating(validation); // 设置是否验证 XML
+            // 设置是否验证 XML
+            factory.setValidating(validation);
 
             factory.setNamespaceAware(false);
             factory.setIgnoringComments(true);
