@@ -434,9 +434,16 @@ public class Reflector {
         return methods.toArray(new Method[methods.size()]);
     }
 
+    /**
+     * 获取唯一的方法（去掉bridge方法）
+     *
+     * @param uniqueMethods 已添加的列表
+     * @param methods 未添加的
+     */
     private void addUniqueMethods(Map<String, Method> uniqueMethods, Method[] methods) {
         for (Method currentMethod : methods) {
-            if (!currentMethod.isBridge()) { // 忽略 bridge 方法，参见 https://www.zhihu.com/question/54895701/answer/141623158 文章
+            // 忽略 bridge 方法，参见 https://www.zhihu.com/question/54895701/answer/141623158 文章
+            if (!currentMethod.isBridge()) {
                 // 获得方法签名
                 String signature = getSignature(currentMethod);
                 // check to see if the method is already known
