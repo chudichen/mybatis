@@ -50,6 +50,15 @@ public class DefaultObjectFactory implements ObjectFactory, Serializable {
         // no props for default
     }
 
+    /**
+     * 根据传入的参数列表选择合适的构造函数实例化对象
+     *
+     * @param type 需要实例化的类型
+     * @param constructorArgTypes 参数类型列表
+     * @param constructorArgs 参数的数值列表
+     * @param <T> 需要转换的泛型
+     * @return 实例化后的对象
+     */
     private <T> T instantiateClass(Class<T> type, List<Class<?>> constructorArgTypes, List<Object> constructorArgs) {
         try {
             Constructor<T> constructor;
@@ -75,7 +84,8 @@ public class DefaultObjectFactory implements ObjectFactory, Serializable {
                     argTypes.append(argType.getSimpleName());
                     argTypes.append(",");
                 }
-                argTypes.deleteCharAt(argTypes.length() - 1); // remove trailing ,
+                // remove trailing ,
+                argTypes.deleteCharAt(argTypes.length() - 1);
             }
             // 拼接 argValues
             StringBuilder argValues = new StringBuilder();
